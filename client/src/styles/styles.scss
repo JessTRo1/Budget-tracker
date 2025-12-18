@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+    margin: 1rem 1rem 3rem 1rem;
+}
+
+.add-transaction-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.transaction-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    position:absolute;
+    top: 50%;
+    left: 50%;  
+    transform: translate(-50%, -50%);
+    align-items: center;
+    z-index: 2;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 50vw;
+    border-radius: 10px;
+
+    &__cancel {
+        align-self: flex-end;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    &__title {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        
+    }
+    &__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: radial-gradient(circle, antiquewhite, #fff);
+        gap: 1rem;
+        padding: 1rem;
+        width: 100%;
+    }
+
+    label {
+        font-weight: 600;
+    }
+    input {
+        border-radius: 10px;
+        padding: 10px;
+    }
+    select {
+        border-radius: 10px;
+        padding: 10px;
+    }
+    option {
+        border-radius: 10px;
+        padding: 10px;
+    }
+    textarea {
+        border-radius: 10px;
+        padding: 20px;
+    }
+    &__submit {
+        place-self: center;
+        background-color: #007bff;
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        width: 60%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        &:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+    }
+}
+
+.filterbar {
+    &__container {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    &__nav {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    &__list {
+        list-style: none;
+        display: flex;
+        flex-direction: row;  
+    }
+    
+    &__item {
+        margin-right: 3rem;
+        position: relative;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+        span {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            
+            &:hover {
+                background-color: #c3c2c2;
+                border-radius: 4px;
+                transform: translateY(-2px);
+                transition: background-color 0.3s ease, transform 0.3s ease;
+            }
+        }
+    }
+
+    &__sublist {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        min-width: 150px;
+        z-index: 1000;
+        list-style: none;
+        padding: 0.5rem 0;
+        
+        // Hidden by default
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        
+        // Show when active
+        &.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        li {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            
+            &:hover {
+                background-color: #f8f9fa;
+            }
+            
+            &.active {
+                background-color: #007bff;
+                color: white;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.dashboard {
+    
+    
+    &__title {
+       margin: 1rem 0;
+       font-size: 2rem;
+    }
+    
+    &__transaction {
+        border-bottom: 1px solid #ccc;
+        padding: 1rem 0;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr 2fr 1.5fr;
+        align-items: center;
+        gap: 1rem;
+
+        
+        &-name {
+            font-weight: bold;
+        }
+        
+        &-amount {
+            color: #007bff;
+            font-weight: bold;
+        }
+        
+        &-category {
+            font-style: italic;
+            color: #555;
+        }
+        
+        &-type {
+            text-transform: capitalize;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            &[data-type="income"] {
+                background-color: #d4edda;
+                color: #155724;
+            }
+            &[data-type="expense"] {
+                background-color: #f8d7da;
+                color: #721c24;
+            }
+        }
+        
+        &-date {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        &-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        &-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-self: end;
+        }
+
+        &-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            
+            &:hover {
+                background-color: #c82333;
+            }
+        }
+        
+        &-update {
+            background-color: #ffc107;
+            color: #212529;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            
+            &:hover {
+                background-color: #e0a800;
+            }
+        }
+    }
+}
