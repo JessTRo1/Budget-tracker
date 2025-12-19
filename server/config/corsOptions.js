@@ -1,3 +1,4 @@
+// Controls with origins are allowed to access the server
 const allowedOrigins = [
   'http://localhost:3000',       // React dev server
   'http://localhost:5173',       // Vite dev server

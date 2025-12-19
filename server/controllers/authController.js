@@ -1,5 +1,10 @@
+// Handle user registration and login
 const User = require('../models/User.js');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { randomUUID } = require('node:crypto');
+const id = randomUUID();
+
 
 async function register(req, res) {
   try {
@@ -10,11 +15,23 @@ async function register(req, res) {
     if (existingUser) {
       return res.status(400).json({ message: 'Username or email already exists' });
     }
+    if (password.length < 6 || !password.match(/[0-9]/) || !password.match(/[*.\-!@#$%^&*]/)) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long and include a number and a special character' });
+    }
+    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+    if (username.length < 3) {
+      return res.status(400).json({ message: 'Username must be at least 3 characters' });
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
+    const jwtSecret = process.env.JWT_SECRET || randomUUID();
     const newUser = new User({
       username,
       email,
       password: hashedPassword,
+      jwtSecret,
+      id
     });
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
@@ -35,7 +52,10 @@ async function login(req, res) {
         const isMatch= await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
-        }
+        } else {
+            const token = jwt.sign(
+                { userId: user._id, username: user.username, email: user.email, id: user.id },
+                process.env.JWT_SECRET,
         res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });  
