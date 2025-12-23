@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const { randomUUID } = require('node:crypto');
 
  
-async function register(req, res) {
+async function register(req, res, next) {
   try {
     const { username, email, password } = req.body;
     const existingUser = await User.findOne({
@@ -43,11 +43,11 @@ async function register(req, res) {
     res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'Strict' });
     res.status(201).json({ message: 'User registered successfully', token });
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    next(error);
   }
 
 };
-async function login(req, res) {
+async function login(req, res, next) {
     try {
         const { username, email, password } = req.body;
         const user = await User.findOne({
@@ -69,7 +69,7 @@ async function login(req, res) {
         }
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });  
+        next(error);
     }
 }
 module.exports = { register, login };

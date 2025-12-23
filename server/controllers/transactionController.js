@@ -2,7 +2,7 @@
 const Transaction = require('../models/Transaction.js');
 const { randomUUID } = require('node:crypto');
 
-async function createTransaction(req, res) {
+async function createTransaction(req, res, next) {
     try {
         const { name, amount, category, type, date, description } = req.body;
         const userId = req.user.userId;
@@ -23,21 +23,21 @@ async function createTransaction(req, res) {
         await newTransaction.save();
         res.status(201).json({ message: 'Transaction created successfully', transaction: newTransaction });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+      next(error);
     }
 }
 
-async function getTransactions(req, res) {
+async function getTransactions(req, res, next) {
     try {
         const userId = req.user.userId;
         const transactions = await Transaction.find({ userId }).sort({ date: -1 });
         res.status(200).json({ transactions });
     } catch (error) { 
-        res.status(500).json({ message: 'Server error', error: error.message });
+        next(error);
     }
 }
 
-async function updateTransaction(req, res) {
+async function updateTransaction(req, res, next) {
     const transactionId = req.params.id;
     const userId = req.user.userId;
     try {
@@ -55,11 +55,11 @@ async function updateTransaction(req, res) {
         await transaction.save();
         res.status(200).json({ message: 'Transaction updated successfully', transaction });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        next(error);
     }
 }
 
-async function deleteTransaction(req, res) {
+async function deleteTransaction(req, res, next) {
     const transactionId = req.params.id;
     const userId = req.user.userId;
     try {
@@ -69,7 +69,7 @@ async function deleteTransaction(req, res) {
         }
         res.status(200).json({ message: 'Transaction deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        next(error);
     }
 }
 

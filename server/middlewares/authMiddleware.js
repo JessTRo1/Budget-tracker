@@ -31,7 +31,7 @@ async function authMiddleware(req, res, next) {
         };
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Token is not valid', error: error.message });
+        next(error);
     }
 }
 

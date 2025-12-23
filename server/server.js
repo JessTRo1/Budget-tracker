@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Connect to database
-connectDB();
+await connectDB();
 
 // ========== MIDDLEWARE ==========
 app.use(helmet());                     // Security headers
