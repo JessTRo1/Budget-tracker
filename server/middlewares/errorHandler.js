@@ -57,4 +57,4 @@ function getErrorMessage(err) {
     return err.message || 'Internal Server Error';
 }
 
-module.exports = errorHandler;
+export default errorHandler;

@@ -1,13 +1,10 @@
-const express = require('express');
+import express from 'express';
+import authRoutes from './authRoutes.js';
+import transactionRoutes from './transactionRoutes.js';
+
 const router = express.Router();
-
-//  Import route files
-const authRoutes = require('./authRoutes');
-const transactionRoutes = require('./transactionRoutes');
-
-// Use routes
 
 router.use('/auth', authRoutes);
 router.use('/transactions', transactionRoutes);
 
-module.exports = router;
+export default router;

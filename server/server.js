@@ -1,13 +1,14 @@
-const express = require('express');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import errorHandler from './middlewares/errorHandler.js';
+import routes from './routes/index.js';
+import corsOptions from './config/corsOptions.js';
 
-const connectDB = require('./config/db');
-const errorHandler = require('./middlewares/errorHandler');
-const routes = require('./routes');
-const corsOptions = require('./config/corsOptions');
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;

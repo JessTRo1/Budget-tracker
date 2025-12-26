@@ -1,6 +1,6 @@
 // Handle transaction operations
-const Transaction = require('../models/Transaction.js');
-const { randomUUID } = require('node:crypto');
+import Transaction from '../models/Transactions.js';
+import { randomUUID } from 'node:crypto';
 
 async function createTransaction(req, res, next) {
     try {
@@ -73,11 +73,4 @@ async function deleteTransaction(req, res, next) {
     }
 }
 
-
-
-module.exports = {
-    createTransaction,
-    getTransactions,
-    updateTransaction,
-    deleteTransaction,
-};
+export { createTransaction, getTransactions, updateTransaction, deleteTransaction };

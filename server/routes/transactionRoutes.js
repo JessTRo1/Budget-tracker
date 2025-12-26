@@ -1,22 +1,13 @@
-const express = require('express');
+import express from 'express';
+import { getTransactions, createTransaction, updateTransaction, deleteTransaction } from '../controllers/transactionController.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
+
 const router = express.Router();
-const {
-    getTransactions,
-    createTransaction,
-    updateTransaction,
-    deleteTransaction,
-} = require('../controllers/transactionController');
-const authMiddleware = require('../middlewares/authMiddleware');
 
 // Protect all transaction routes
 router.use(authMiddleware);
 
-router.route('/')
-.get(getTransactions)
-.post(createTransaction);
+router.route('/').get(getTransactions).post(createTransaction);
+router.route('/:id').put(updateTransaction).delete(deleteTransaction);
 
-router.route('/:id')
-.put(updateTransaction)
-.delete(deleteTransaction);
-
-module.exports = router;
+export default router;

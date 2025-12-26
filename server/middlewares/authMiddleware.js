@@ -1,26 +1,32 @@
 // Middleware to handle authentication. A gatekeeper that checks if the request has a valid JWT token before allowing it to reach your protected routes (like creating/updating/deleting transactions).
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
 async function authMiddleware(req, res, next) {
-    const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
+    // Extract token from Authorization header
+    const authHeader = req.header('Authorization');
+    const token = authHeader?.replace('Bearer ', '') || req.cookies.token;
+    
     if (!token) {
-        return res.status(401).json({ message: 'No token, authorization denied' });
+        const error = new Error('No token provided');
+        return next(error);
     }
     try {
         // Decode token without verifying first
         const decoded = jwt.decode(token);
         if (!decoded) {
-            return res.status(401).json({ message: 'Token is not valid' });
+            const error = new Error('Invalid token');
+            return next(error);
         }
 
         // Find user to get their jwtSecret
         const user = await User.findById(decoded.userId);
         if (!user) {
-            return res.status(401).json({ message: 'User not found' });
+            const error = new Error('User not found');
+            return next(error);
         }
 
-        // Now verify with user's jwtSecret
+        // Verify with user's jwtSecret
         jwt.verify(token, process.env.JWT_SECRET || user.jwtSecret);
 
         req.user = {
@@ -35,4 +41,4 @@ async function authMiddleware(req, res, next) {
     }
 }
 
-module.exports = authMiddleware;
+export default authMiddleware;
