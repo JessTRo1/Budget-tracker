@@ -1,32 +1,23 @@
-// App.jsx
-import React from "react";
-import Header from "./assets/components/Header"
-import { BudgetProvider, useBudget } from "./assets/context/BudgetContext";
-import TransactionForm from "./assets/components/TransactionForm";
-import Dashboard from "./assets/components/Dashboard";
-import BudgetProgress from "./assets/components/BudgetProgress";
-
-
-function AppContent() {
-    const { showForm, setShowForm } = useBudget();
-    
-    return (
-        <>
-            <Header/>
-            <button className="add-transaction-button" onClick={() => setShowForm(!showForm)}>
-                { showForm ? 'Close Form' : 'Add Transaction' }
-            </button>
-            {showForm && <TransactionForm onCancel={() => setShowForm(false)} />}
-            <Dashboard/>
-            <BudgetProgress/>
-        </>
-    );
-}
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BudgetProvider } from './context/BudgetContext';
+import Layout from './layouts/mainlayout';
+import HomePage from './pages/home';
+import LoginPage from './pages/login';
+import RegisterPage from './pages/register';
 
 export default function App() {
     return (
         <BudgetProvider>
-            <AppContent />
+            <BrowserRouter>
+                <Routes>
+                    <Route element={<Layout />}>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
+                    </Route>
+                </Routes>
+            </BrowserRouter>
         </BudgetProvider>
     );
 }
+

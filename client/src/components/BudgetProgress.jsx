@@ -1,5 +1,5 @@
 // BudgetProgress.jsx
-import { useBudget } from "../context/BudgetContext"
+import { useBudget } from "../context/BudgetContext";
 
 
 
