@@ -18,33 +18,22 @@ export { initialState };
 export default function BudgetReducer(state, action) {
     switch (action.type) {
         case 'ADD_TRANSACTION': {
-            // Validate required fields
-            const { name, amount, category, type, date } = action.payload;
+            const { _id, name, amount, category, type, date, description } = action.payload;
+            
             if (!name || !amount || !category || !type || !date) {
-                throw new Error("All fields are required: name, amount, category, type, date");
+                throw new Error("All fields are required");
             }
 
             const newTransaction = {
-                id: Date.now(),
+                _id: _id || Date.now(), // Temporary ID if not provided
                 name,
                 amount: Number(amount),
-                category: type === 'income' ? category : category || 'Otros',
-                type: type === 'income' ? 'income' : 'expense',
+                category,
+                type,
                 date: new Date(date).toISOString(),
-                description: action.payload.description || '',
-                createdAt: new Date(),
+                description: description || '',
             }
-            // duplicate trasaction prevention
-            const isDuplicate = state.transactions.some(txn =>
-                txn.name === newTransaction.name &&
-                txn.amount === newTransaction.amount &&
-                txn.category === newTransaction.category &&
-                txn.type === newTransaction.type &&
-                txn.date === newTransaction.date
-            );
-            if (isDuplicate) {
-                throw new Error("Duplicate transaction detected");
-            }
+            
             return {
                 ...state,
                 transactions: [...state.transactions, newTransaction],
@@ -54,7 +43,7 @@ export default function BudgetReducer(state, action) {
             const { id } = action.payload;
             return {
                 ...state,
-                transactions: state.transactions.filter(txn => txn.id !== id),
+                transactions: state.transactions.filter(txn => txn._id !== id),
             };
         }
         case 'UPDATE_TRANSACTION': {
@@ -62,7 +51,7 @@ export default function BudgetReducer(state, action) {
             return {
                 ...state,
                 transactions: state.transactions.map(txn =>
-                    txn.id === id ? { ...txn, ...updatedData } : txn
+                    txn._id === id ? { ...txn, ...updatedData } : txn
                 ),
             };
         }
