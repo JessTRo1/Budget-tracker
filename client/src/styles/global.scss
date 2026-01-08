@@ -1,0 +1,11 @@
+// Reset básico 
+@use './reset' as *;
+
+// Tipografía general y títulos
+@use './typography' as *;
+
+// Utilidades: contenedores, clases auxiliares, botones genéricos
+@use './utilities' as *;
+
+// Componentes individuales (Navbar, RutinaCard, ComentarioForm, etc.)
+@use './components' as *;

@@ -25,12 +25,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
+    <div  className='form-page'>
       <h1>Login</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='emailOrUsername'>Email or Username:</label>
+      <form onSubmit={handleSubmit} className='form-page__container'>
+        <label className='form-page__container-label' htmlFor='emailOrUsername'>Email or Username:</label>
         <input
+        className='form-page__container-input'
           type='text'
           id='emailOrUsername'
           value={emailOrUsername}
@@ -39,8 +40,9 @@ export default function LoginPage() {
           placeholder='Enter your email or username'
         />
         <br />
-        <label htmlFor='password'>Password:</label>
+        <label className='form-page__container-label' htmlFor='password'>Password:</label>
         <input
+          className='form-page__container-input'
           type="password"
           id="password"
           value={password}
@@ -49,11 +51,11 @@ export default function LoginPage() {
           placeholder="Enter your password"
         />
         <br />
-        <button type='submit' disabled={isLoading}>
+        <button className='form-page__container-button' type='submit' disabled={isLoading}>
           {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
-      <p>Don't have an account? <Link to='/register'>Register here</Link></p>
+      <p>Don't have an account? <Link className='form-page__container-link' to='/register'>Register here</Link></p>
     </div>
   )
 }

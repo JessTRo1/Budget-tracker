@@ -27,12 +27,13 @@ export default function RegisterPage() {
     }
 
     return (
-        <div>
+        <div className='form-page'>
             <h1>Register</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='form-page__container'>
                 <label htmlFor='username'>Username:</label>
-                <input 
+                <input
+                    className='form-page__container-input' 
                     type='text' 
                     id='username' 
                     value={username}
@@ -43,6 +44,7 @@ export default function RegisterPage() {
                 <br />
                 <label htmlFor='email'>Email:</label>
                 <input 
+                    className='form-page__container-input' 
                     type='email' 
                     id='email' 
                     value={email}
@@ -53,6 +55,7 @@ export default function RegisterPage() {
                 <br />
                 <label htmlFor='password'>Password:</label>
                 <input 
+                    className='form-page__container-input' 
                     type="password" 
                     id="password" 
                     value={password}
@@ -61,11 +64,11 @@ export default function RegisterPage() {
                     placeholder="Enter your password" 
                 />
                 <br />
-                <button type='submit' disabled={isLoading}>
+                <button type='submit' disabled={isLoading} className='form-page__container-button'>
                     {isLoading ? 'Registering...' : 'Register'}
                 </button>
             </form>
-            <p>Already have an account? <Link to='/login'>Login here</Link></p>
+            <p>Already have an account? <Link className='form-page__container-link' to='/login'>Login here</Link></p>
         </div>
     )
 }
