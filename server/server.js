@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true })); // Parse form data
 app.use('/api', routes);
 
 // ========== ERROR HANDLER ==========
-app.use(errorHandler);                 // Must be after routes
+app.use(errorHandler);                 
 
 // Start server
 app.listen(PORT, () => {

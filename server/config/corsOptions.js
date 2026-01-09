@@ -1,7 +1,8 @@
 // Controls with origins are allowed to access the server
 const allowedOrigins = [
-  'http://localhost:3000',       // React dev server
-  'http://localhost:5173',       // Vite dev server
+  'http://localhost:3000',       // Local backend
+  'http://localhost:5173',       // Local frontend
+  'https://budget-tracker-six-silk.vercel.app/',  // Vercel domain
 ];
 
 const corsOptions = {
