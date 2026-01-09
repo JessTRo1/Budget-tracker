@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import { BudgetProvider } from './context/BudgetContext';
 import Layout from './layouts/mainlayout';
 import HomePage from './pages/home';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
-import { AuthProvider } from './context/AuthContext';
 
 export default function App() {
     return (

@@ -85,7 +85,7 @@
         border: #c3c2c2 1px solid;
     }
 
-    &__submit {
+    &__submit, &__add-category {
         place-self: center;
         background-color: #007bff;
         color: white;
@@ -345,5 +345,38 @@
     }
     &__container-link:hover::after {
         width: 100%;
+    }
+}
+
+.categoryadd {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: #ececec;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+
+    &__form {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    &__submit {
+        background-color: #28a745;
+        color: white;
+        border-radius: 50%;
+        aspect-ratio: 1 / 1;
+        padding: .5rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+            box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+        }
     }
 }

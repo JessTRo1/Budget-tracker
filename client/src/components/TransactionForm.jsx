@@ -1,11 +1,13 @@
 // TransactionForm.jsx
 import { useBudget } from "../context/BudgetContext";
 import { useEffect, useState } from "react";
+import  AddCategoryForm  from "./AddCategoryForm";
 
 export default function TransactionForm({ transaction = null, onCancel }) {
     const isUpdating = !!transaction;
     const { state, addTransaction, setShowForm, updateTransaction } = useBudget();
     const { categories } = state;
+    const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -46,7 +48,7 @@ export default function TransactionForm({ transaction = null, onCancel }) {
         };
 
         if (isUpdating) {
-            updateTransaction(transaction.id, transactionData);
+            updateTransaction(transaction._id, transactionData);
         } else {
             addTransaction(transactionData);
         }
@@ -69,6 +71,7 @@ export default function TransactionForm({ transaction = null, onCancel }) {
             <h2 className="transaction-form__title">
                 {isUpdating ? 'Update Transaction' : 'Add New Transaction'}
             </h2>
+             {showAddCategoryForm && <AddCategoryForm onCancel={() => setShowAddCategoryForm(false)} />}
 
             <form className="transaction-form__form" onSubmit={handleSubmit}>
                 <label htmlFor="name">Transaction Name:</label>
@@ -106,7 +109,12 @@ export default function TransactionForm({ transaction = null, onCancel }) {
                         </option>
                     ))}
                 </select>
-
+                <button 
+                type="button" 
+                onClick={() => setShowAddCategoryForm(true)}
+                className="transaction-form__add-category">
+                    + Add Category
+                </button>
                 <label htmlFor="type">Type:</label>
                 <select
                     id="type"

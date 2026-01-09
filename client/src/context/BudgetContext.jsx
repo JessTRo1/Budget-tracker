@@ -2,17 +2,25 @@
 import React, { createContext, useEffect, useReducer, useState, useCallback} from 'react';
 import BudgetReducer, { initialState } from '../reducers/BudgetReducer';
 import { fetchTransactions, createTransaction as apiCreateTransaction, updateTransaction as apiUpdateTransaction, deleteTransaction as apiDeleteTransaction } from '../services/transactionService';
+import { useAuth } from './AuthContext';  
 
 const BudgetContext = createContext();
 
 export const BudgetProvider = ({ children }) => {
+    const { isAuthenticated } = useAuth();  // Check if authenticated
     const [showForm, setShowForm] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [state, dispatch] = useReducer(BudgetReducer, initialState);
 
-    // Load transactions from server on mount
+    // Load transactions from server when authenticated
     useEffect(() => {
+        if (!isAuthenticated) {
+            setIsLoading(false);
+            return;
+        }
+
         const loadTransactionsFromServer = async () => {
+            setIsLoading(true);
             try {
                 const serverTransactions = await fetchTransactions();
                 loadTransactions(serverTransactions);
@@ -21,8 +29,9 @@ export const BudgetProvider = ({ children }) => {
             }
             setIsLoading(false);
         };
+
         loadTransactionsFromServer();
-    }, []);
+    }, [isAuthenticated]);  // Reload when authentication changes
 
     useEffect(() => {
         calculateStats();

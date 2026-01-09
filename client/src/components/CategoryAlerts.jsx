@@ -4,7 +4,6 @@ import { useBudget } from '../context/BudgetContext'
 export default function CategoryAlerts() {
     const { state } = useBudget();
 
-    // Add this function inside the component
     const calculateCategorySpent = (category) => {
         return state.transactions
             .filter(txn => txn.category === category && txn.type === 'expense')
